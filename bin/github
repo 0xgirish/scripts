@@ -30,9 +30,10 @@ try:
         pyperclip.copy(repo.ssh_url)
         print(f'New repo create at {repo.ssh_url}')
     elif args.target is not EMPTY:
+        repo = user.get_repo(args.target)
         print(f'You want to delete repo "{args.target}"')
         sure = input(f'Are you sure [Y/n]: ')
         if sure in ['y', 'yes', 'Y', 'Yes', 'YES']:
-                user.get_repo(args.target).delete()
+                repo.delete()
 except Exception as e:
     logging.error(e)
