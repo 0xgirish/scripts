@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+import os
+import argparse
+import logging
+import pyperclip
+from github import Github
+
+EMPTY = '$'
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-create-repo', '--repo', help='name of the repo to create', type=str)
+parser.add_argument('-private', '--private', help='Create a private repo', type=str)
+parser.add_argument('-delete-repo', '--target', help='name of the repo to delete', type=str)
+parser.set_defaults(repo=EMPTY, target=EMPTY, private=EMPTY)
+args = parser.parse_args()
+
+
+GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
+
+# new access token with admin write and delete repos
+gclient = Github(GITHUB_ACCESS_TOKEN)
+user = gclient.get_user()
+
+true_list = ['True', 'true', '1', 'yes']
+
+try:
+    if args.repo is not EMPTY:
+        repo = user.create_repo(args.repo, private=(args.private in true_list))
+        pyperclip.copy(repo.ssh_url)
+        print(f'New repo create at {repo.ssh_url}')
+    elif args.target is not EMPTY:
+        print(f'You want to delete repo "{args.target}"')
+        sure = input(f'Are you sure [Y/n]: ')
+        if sure in ['y', 'yes', 'Y', 'Yes', 'YES']:
+                user.get_repo(args.target).delete()
+except Exception as e:
+    logging.error(e)

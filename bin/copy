@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+
+import sys
+import pyperclip
+
+
+content = sys.stdin.read()
+pyperclip.copy(content)
+print(content, end='')
