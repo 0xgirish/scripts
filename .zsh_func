@@ -1,0 +1,20 @@
+# usefull functions
+
+# create a new tmux session
+new() {
+    tmux new -s $1
+}
+
+# connect to a tmux session
+connect() {
+    tmux attach -t $1
+}
+
+# create a http file server with port at $1
+servefiles() {
+    python -m http.server $1
+}
+
+autoload new
+autoload connect
+autoload servefiles
