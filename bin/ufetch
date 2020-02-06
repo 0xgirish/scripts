@@ -1,15 +1,15 @@
 #!/bin/sh
 #
-# ufetch-elementary - tiny system info for elementary os
+# ufetch-fedora - tiny system info for fedora
 
 ## INFO
 
 # user is already defined
 host="$(hostname)"
-os="$(lsb_release -ds)"
+os="$(cat /etc/fedora-release)"
 kernel="$(uname -sr)"
 uptime="$(uptime -p | sed 's/up //')"
-packages="$(dpkg -l | wc -l)"
+packages="$(yum list installed | wc -l)"
 shell="$(basename "$SHELL")"
 
 ## UI DETECTION
@@ -56,21 +56,21 @@ fi
 # you can change these
 lc="${reset}${bold}${blue}"         # labels
 nc="${reset}${bold}${blue}"         # user and hostname
-ic="${reset}${bold}${white}"        # info
-c0="${reset}${bold}${white}"        # first color
-c1="${reset}${white}"               # second color
+ic="${reset}"                       # info
+c0="${reset}${white}"               # first color
+c1="${reset}${blue}"                # second color
 
 ## OUTPUT
 
 cat <<EOF
-
-${c1}    _______    ${nc}${USER}${ic}@${nc}${host}${reset}
-${c1}   / ${c0}____  ${c1}\\   ${lc}OS:        ${ic}${os}${reset}
-${c1}  /  ${c0}|  /  /${c1}\\  ${lc}KERNEL:    ${ic}${kernel}${reset}
-${c1}  |${c0}__\\ /  /${c1} |  ${lc}UPTIME:    ${ic}${uptime}${reset}
-${c1}  \\   ${c0}/__/${c1}  /  ${lc}PACKAGES:  ${ic}${packages}${reset}
-${c1}   \\_______/   ${lc}SHELL:     ${ic}${shell}${reset}
-${c1}               ${lc}${uitype}:        ${ic}${ui}${reset}
+${c0}        _____
+${c0}       /   __)${c1}\\   ${nc}${USER}${ic}@${nc}${host}${reset}
+${c0}       |  /  ${c1}\\ \\  ${lc}OS:        ${ic}${os}${reset}
+${c1}    __${c0}_|  |_${c1}_/ /  ${lc}KERNEL:    ${ic}${kernel}${reset}
+${c1}   / ${c0}(_    _)${c1}_/   ${lc}UPTIME:    ${ic}${uptime}${reset}
+${c1}  / /  ${c0}|  |       ${lc}PACKAGES:  ${ic}${packages}${reset}
+${c1}  \\ \\${c0}__/  |       ${lc}SHELL:     ${ic}${shell}${reset}
+${c1}   \\${c0}(_____/       ${lc}${uitype}:        ${ic}${ui}${reset}
 
 EOF
 
