@@ -6,6 +6,13 @@ import sys
 
 google, argv = False, None
 GOOGLE_ENGINE = 'https://google.com/search?q'
+query = ['firefox', '--new-tab']
+
+try:
+    if os.environ['DEFAULT_BROWSER'] == 'chrome':
+        query = ['google-chrome']
+except:
+    pass
 
 
 # if -g option is specified then use google search engine
@@ -31,5 +38,6 @@ try:
 except:
     search_engine = GOOGLE_ENGINE
 
-subprocess.run(["firefox", "--new-tab", search_engine + "=" + search])
+query.append(search_engine + '=' + search)
+subprocess.check_output(query)
 print(content, end='')
