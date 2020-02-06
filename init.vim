@@ -1,7 +1,7 @@
 "
 " @author: Girish Kumar, (zkmrgirish)
 "
-" last update: 31 Jan, Friday 
+" last update: 03 Feb, Monday 
 
 
 " you want vim, not vi. when vim finds a vimrc, 'nocompatible' is set anyway.
@@ -79,6 +79,8 @@ set scrolloff=10
 " set path to search files in subfolders and autocomplete on tab completion
 set path=**
 set wildmenu
+set wildignore+=*.pyc,*.pyo,*/__pycache__/*,.git/*
+set wildignore+=*.swp,~*
 
 " set relativenumber
 set number
@@ -149,7 +151,7 @@ function! FloatTerm()
   let buf = nvim_create_buf(v:false, v:true)
   let s:float_term_win = nvim_open_win(buf, v:true, opts)
   " Styling
-  hi FloatTermNormal term=None ctermbg=23
+  hi FloatTermNormal term=None ctermbg=10
   call setwinvar(s:float_term_border_win, '&winhl', 'Normal:FloatTermNormal')
   call setwinvar(s:float_term_win, '&winhl', 'Normal:FloatTermNormal')
   terminal zsh
@@ -232,6 +234,7 @@ nnoremap <Space> i<Space><Right><Esc>
 nnoremap <Tab> <C-w><C-w>
 nnoremap <Leader>n :cnext<CR>
 nnoremap <Leader>p :cprev<CR>
+nnoremap <Leader>d :bd! term:*<C-a><CR>
 
 " For comment and uncomment
 noremap <C-n> <S-v>:norm 
@@ -279,4 +282,6 @@ hi TabLineSel guifg=#abcdef
 hi CursorLineNr guifg=#52f752
 hi VertSplit  guifg=#404040 guibg=#abcdef
 hi SignColumn ctermbg=NONE guibg=NONE
+hi Pmenu    guifg=#abcdef guibg=#4f4f4f
+hi Search guibg=#abcdef guifg=black
 hi Comment cterm=italic
