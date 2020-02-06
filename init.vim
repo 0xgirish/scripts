@@ -1,7 +1,7 @@
 "
 " @author: Girish Kumar, (zkmrgirish)
 "
-" last update: 03 Feb, Monday 
+" last update: 06 Feb, Thursday 
 
 
 " you want vim, not vi. when vim finds a vimrc, 'nocompatible' is set anyway.
@@ -197,53 +197,38 @@ command Hard call HardMode()
 command Easy call EasyMode()
 
 
-" disbale use of arrow keys in normal mode
+" use arrow keys to navigate windows
 map <Left> <C-w>h
 map <Down> <C-w>j
 map <Up> <C-w>k
 map <Right> <C-w>l
 
 
+" Use <Esc> to change to normal mode in neovim terminal
 tnoremap <Esc> <C-\><C-n>
 noremap <Leader><Tab> <Esc>/<++><Enter>"_c4l
-inoremap <Leader><Tab> <Esc>/<++><Enter>"_c4l
 
-" insert mapping for auto pairs
-" inoremap " ""<Left>
-" inoremap ' ''<Left>
-" inoremap { {}<Left>
-" inoremap {<CR> {}<Left><CR><CR><UP><Tab>
-" inoremap [ []<Left>
-" inoremap ( ()<Left>
-
-" always keep current line at center
-nnoremap <Leader>1 1gt
-nnoremap <Leader>2 2gt
-nnoremap <Leader>3 3gt
-nnoremap <Leader>4 4gt
-nnoremap <Leader>5 5gt
-nnoremap <Leader>6 6gt
-nnoremap <Leader>7 7gt
-nnoremap <Leader>8 8gt
-nnoremap <Leader>9 9gt
-
+" list buffers and change
 nnoremap <Leader>ls :ls<CR>:b<Left>
 nnoremap zz zz7<C-e>
-
 nnoremap <Space> i<Space><Right><Esc>
+
+" change to different window
 nnoremap <Tab> <C-w><C-w>
 nnoremap <Leader>n :cnext<CR>
 nnoremap <Leader>p :cprev<CR>
+
+" delete all terminal buffers used by :Terminal
 nnoremap <Leader>d :bd! term:*<C-a><CR>
 
 " For comment and uncomment
 noremap <C-n> <S-v>:norm 
 vnoremap <C-n> :norm 
 
-nnoremap <leader>comp :-1read $HOME/.vim/snippets/competitive.cpp<cr>/<++><cr>cf>
-
+" find a file and show in vertical split
 cnoreabbrev <expr> vfind ((getcmdtype() is# ':' && getcmdline() is# 'vfind')?('vertical sfind'):('vfind'))
-" cnoreabbrev vfind vertical sfind
+
+" generate tag file on every write
 cnoreabbrev ctag autocmd BufWritePost * call system("ctags -R")
 
 map <Leader>r :VimFilerExplorer -winwidth=25<CR>
