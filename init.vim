@@ -11,10 +11,11 @@ filetype off                  " required
 
 call plug#begin('~/.vim/plugged')
 
+" required for asynchronus update of plugins
 Plug 'shougo/deoplete.nvim', { 'do': ':updateremoteplugins' }
 
 Plug 'fatih/vim-go'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 
 " dependency for vimfiler
 Plug 'shougo/unite.vim'
@@ -88,7 +89,7 @@ set nowrapscan
 set autoread
 set autowrite
 set cursorline
-set history=1000
+set history=100
 set foldmethod=syntax
 set foldlevelstart=2
 
@@ -203,6 +204,11 @@ map <Down> <C-w>j
 map <Up> <C-w>k
 map <Right> <C-w>l
 
+" auto-pairs like emulation
+inoremap {<CR> {<CR>}<Esc>O
+inoremap (<CR> (<CR>)<Esc>O
+inoremap [<CR> [<CR>]<Esc>O
+
 
 " Use <Esc> to change to normal mode in neovim terminal
 tnoremap <Esc> <C-\><C-n>
@@ -244,6 +250,7 @@ let g:srcery_italic = 1
 
 
 colorscheme industry
+
 if (has("nvim"))
   "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
