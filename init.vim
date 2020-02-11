@@ -13,28 +13,21 @@ call plug#begin('~/.vim/plugged')
 
 " required for asynchronus update of plugins
 Plug 'shougo/deoplete.nvim', { 'do': ':updateremoteplugins' }
-
 Plug 'fatih/vim-go'
-" Plug 'jiangmiao/auto-pairs'
-
-" dependency for vimfiler
 Plug 'shougo/unite.vim'
 Plug 'shougo/vimfiler.vim'
-
-" Comment:   use visual selection with :norm i<Comment-Chracter>
-" Uncomment: use visual selection with :norm x
-" Plug 'tpope/vim-commentary'
 Plug 'vimwiki/vimwiki'
 
 call plug#end()            " required
-
-
 
 " configure gopls? also disable guru in vim-go
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
 let g:go_list_type = "quickfix"
 let g:go_doc_popup_window = 1
+let g:go_fmt_command = "goimports"
+
+let g:srcery_italic = 1
 
 " remove this after getting a good gopls setup?
 let g:go_null_module_warning = 0
@@ -97,10 +90,7 @@ set t_Co=256
 set bg=dark
 set statusline=%f\ \%{strftime('%I:%M\ %p,\ %A')}\ %h%w%m%r\ %=%(%l,%c%V\ %=\ %P%)
 
-
 let g:netrw_liststyle = 3
-
-
 augroup netrw_mapping
     autocmd!
     autocmd filetype netrw call NetrwMapping()
@@ -118,51 +108,6 @@ endfunction
 
 command! -nargs=1 Find call FindText(<f-args>)
 
-" Floating Term
-let s:float_term_border_win = 0
-let s:float_term_win = 0
-function! FloatTerm()
-  " get current working direactory
-  let s:current_direactory = expand('%:p:h')
-  " Configuration
-  let height = float2nr((&lines - 2) * 0.6)
-  let row = float2nr((&lines - height) / 2)
-  let width = float2nr(&columns * 0.6)
-  let col = float2nr((&columns - width) / 2)
-  " Border Window
-  let border_opts = {
-        \ 'relative': 'editor',
-        \ 'row': row - 1,
-        \ 'col': col - 2,
-        \ 'width': width + 4,
-        \ 'height': height + 2,
-        \ 'style': 'minimal'
-        \ }
-  let border_buf = nvim_create_buf(v:false, v:true)
-  let s:float_term_border_win = nvim_open_win(border_buf, v:true, border_opts)
-  " Terminal Window
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': row,
-        \ 'col': col,
-        \ 'width': width,
-        \ 'height': height,
-        \ 'style': 'minimal'
-        \ }
-  let buf = nvim_create_buf(v:false, v:true)
-  let s:float_term_win = nvim_open_win(buf, v:true, opts)
-  " Styling
-  hi FloatTermNormal term=None ctermbg=10
-  call setwinvar(s:float_term_border_win, '&winhl', 'Normal:FloatTermNormal')
-  call setwinvar(s:float_term_win, '&winhl', 'Normal:FloatTermNormal')
-  terminal zsh
-  startinsert
-  " Close border window when terminal window close
-  autocmd TermClose * ++once :q | call nvim_win_close(s:float_term_border_win, v:true)
-endfunction
-
-command Terminal call FloatTerm()
-
 function SplitTerminal()
     split term://zsh
     :res 7
@@ -179,36 +124,19 @@ endfunction
 command Vterm call VSplitTerminal()
 command Sterm call SplitTerminal()
 
-function HardMode()
-    " disbale hjkl and arrow keys
-    map h <NOP>
-    map j <NOP>
-    map k <NOP>
-    map l <NOP>
-endfunction
-
-function EasyMode()
-    unmap h
-    unmap j
-    unmap k
-    unmap l
-endfunction
-
-command Hard call HardMode()
-command Easy call EasyMode()
-
-
 " use arrow keys to navigate windows
 map <Left> <C-w>h
 map <Down> <C-w>j
 map <Up> <C-w>k
 map <Right> <C-w>l
 
+" change to different window
+nnoremap <Tab> <C-w><C-w>
+
 " auto-pairs like emulation
 inoremap {<CR> {<CR>}<Esc>O
 inoremap (<CR> (<CR>)<Esc>O
 inoremap [<CR> [<CR>]<Esc>O
-
 
 " Use <Esc> to change to normal mode in neovim terminal
 tnoremap <Esc> <C-\><C-n>
@@ -219,8 +147,6 @@ nnoremap <Leader>ls :ls<CR>:b<Left>
 nnoremap zz zz7<C-e>
 nnoremap <Space> i<Space><Right><Esc>
 
-" change to different window
-nnoremap <Tab> <C-w><C-w>
 nnoremap <Leader>n :cnext<CR>
 nnoremap <Leader>p :cprev<CR>
 
@@ -233,22 +159,10 @@ vnoremap <C-n> :norm
 
 " find a file and show in vertical split
 cnoreabbrev <expr> vfind ((getcmdtype() is# ':' && getcmdline() is# 'vfind')?('vertical sfind'):('vfind'))
-
-" generate tag file on every write
-cnoreabbrev ctag autocmd BufWritePost * call system("ctags -R")
-
 map <Leader>r :VimFilerExplorer -winwidth=25<CR>
-map gb <C-o>
-
 iab <expr> cdate strftime('%d %b, %A')
 
 autocmd InsertEnter * se cul
-
-let g:webdevicons_conceal_nerdtree_brackets = 0
-let g:go_fmt_command = "goimports"
-let g:srcery_italic = 1
-
-
 colorscheme industry
 
 if (has("nvim"))
@@ -256,9 +170,6 @@ if (has("nvim"))
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 endif
 
-"For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
 if (has("termguicolors"))
   set termguicolors
 endif
