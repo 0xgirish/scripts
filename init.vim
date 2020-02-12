@@ -81,7 +81,7 @@ set scrolloff=10
 set path=**
 set wildmenu
 set wildignore+=*.pyc,*.pyo,*/__pycache__/*,.git/*
-set wildignore+=*.swp,~*
+set wildignore+=*.swp,~*,#*/**
 
 " relativenumber is just a showoff, nobody uses them
 " set number        " :set number when required
@@ -98,22 +98,6 @@ set bg=dark
 set statusline=%f\ \%{strftime('%I:%M\ %p,\ %A')}\ %h%w%m%r\ %=%(%l,%c%V\ %=\ %P%)
 
 let g:netrw_liststyle = 3
-augroup netrw_mapping
-    autocmd!
-    autocmd filetype netrw call NetrwMapping()
-augroup END
-  
-function! NetrwMapping()
-    noremap <buffer> s <C-w><C-v><C-w>60>
-endfunction
-
-function FindText(text)
-    " extenstion of the current file
-    let b:pattern="**/*.". expand('%:e')
-    exe "vim /". a:text ."/". b:pattern
-endfunction
-
-command! -nargs=1 Find call FindText(<f-args>)
 
 function SplitTerminal()
     split term://zsh
@@ -128,8 +112,8 @@ function VSplitTerminal()
 endfunction
 
 " commands for terminal split
-command Vterm call VSplitTerminal()
-command Sterm call SplitTerminal()
+cnoreabbrev <expr> vterm ((getcmdtype() is# ':' && getcmdline() is# 'vterm')?('call VSplitTerminal()'):('vterm'))
+cnoreabbrev <expr> sterm ((getcmdtype() is# ':' && getcmdline() is# 'sterm')?('call SplitTerminal()'):('sterm'))
 
 " use arrow keys to navigate windows
 map <Left> <C-w>h
@@ -181,7 +165,7 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-hi Comment guifg=#abcdef ctermfg=23
+hi Comment guibg=#404040 guifg=#abcdef ctermfg=23
 hi Visual  guifg=#52f752
 hi Normal     ctermbg=NONE guibg=NONE
 hi EndOfBuffer guifg=#404040
@@ -192,7 +176,7 @@ hi TabLine    guifg=white  guibg=#4f4f4f
 hi TabLineFill guifg=#4f4f4f
 hi TabLineSel guifg=#abcdef
 hi CursorLineNr guifg=#52f752
-hi VertSplit  guifg=#404040 guibg=#abcdef
+hi VertSplit  guifg=#404040 guibg=black
 hi SignColumn ctermbg=NONE guibg=NONE
 hi Pmenu    guifg=#abcdef guibg=#4f4f4f
 hi Search guifg=#52f752 guibg=#4d4d4d
