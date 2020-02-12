@@ -14,9 +14,15 @@ call plug#begin('~/.vim/plugged')
 " required for asynchronus update of plugins
 Plug 'shougo/deoplete.nvim', { 'do': ':updateremoteplugins' }
 Plug 'fatih/vim-go'
+
+" dependency for vimfiler
 Plug 'shougo/unite.vim'
 Plug 'shougo/vimfiler.vim'
+
+" vimwiki for note taking
 Plug 'vimwiki/vimwiki'
+
+" a minimal colorscheme
 Plug 'andreypopp/vim-colors-plain'
 
 call plug#end()            " required
