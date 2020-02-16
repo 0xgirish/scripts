@@ -40,6 +40,14 @@ do
         fi
     done
 
+    # move .pdf files to $DOWNLOAD_PATH/pdf
+    for pdffile in $(ls $DOWNLOAD_PATH | egrep "^+*\.pdf");
+    do
+        if [ ! -f $DOWNLOAD_PATH/$pdffile.part ]; then
+            mv $DOWNLOAD_PATH/$pdffile $DOWNLOAD_PATH/pdf/
+        fi
+    done
+
     # move images to $MEDIA/imgs
     for img in $(ls $DOWNLOAD_PATH | egrep "^+*\.jpg|^+*\.jpeg|^+*\.png");
     do
