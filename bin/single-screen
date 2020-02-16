@@ -1,3 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
-xrandr --output eDP-1 --off
+# laptop screen code
+laptop_screen=$(xrandr | grep " connected " | awk '{ print $1 }' | head -1)
+xrandr --output $laptop_screen --off
