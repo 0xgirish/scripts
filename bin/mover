@@ -1,0 +1,55 @@
+#!/usr/bin/zsh
+
+# cron job to be run every minute
+# * * * * * mover
+
+DOWNLOAD_PATH=$HOME/usr/tmp
+MEDIA=$HOME/usr/media
+
+for i in {0..11};
+do
+    # move tar files to $DOWNLOAD_PATH/tar 
+    for tar_file in $(ls $DOWNLOAD_PATH | egrep "^+*\.tar.gz|^+*\.tar.bz2");
+    do
+        mv $DOWNLOAD_PATH/$tar_file $DOWNLOAD_PATH/tar/;
+    done
+
+    # move .deb files to $DOWNLOAD_PATH/deb
+    for deb_file in $(ls $DOWNLOAD_PATH | egrep "^+*\.deb");
+    do
+        mv $DOWNLOAD_PATH/$deb_file $DOWNLOAD_PATH/deb/;
+    done
+
+    # move .zip files to $DOWNLOAD_PATH/zip
+    for zip_file in $(ls $DOWNLOAD_PATH | egrep "^+*\.zip");
+    do
+        mv $DOWNLOAD_PATH/$zip_file $DOWNLOAD_PATH/zip/;
+    done
+
+    # move .sh files to $DOWNLOAD_PATH/sh
+    for shfile in $(ls $DOWNLOAD_PATH | egrep "^+*\.sh");
+    do
+        mv $DOWNLOAD_PATH/$shfile $DOWNLOAD_PATH/sh/
+    done
+
+    # move images to $MEDIA/imgs
+    for img in $(ls $DOWNLOAD_PATH | egrep "^+*\.jpg|^+*\.jpeg|^+*\.png");
+    do
+        mv $DOWNLOAD_PATH/$img $MEDIA/imgs/
+    done
+
+    # move music files to $MEDIA/music
+    for mpfile in $(ls $DOWNLOAD_PATH | egrep "^+*\.mp3|^+*\.wav|^+*\.wma");
+    do
+        mv $DOWNLOAD_PATH/$mpfile $MEDIA/music/
+    done
+
+    # move video files to $MEDIA/videos
+    for vdfile in $(ls $DOWNLOAD_PATH | egrep "^+*\.mp4|^+*\.mkv|^+*\.ogg");
+    do
+        mv $DOWNLOAD_PATH/$vdfile $MEDIA/videos/
+    done
+
+    # sleep for 5 second before another sweep
+    sleep 5;
+done
