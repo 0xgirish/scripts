@@ -40,6 +40,7 @@ let g:srcery_italic = 1
 let g:go_null_module_warning = 0
 let g:vimfiler_as_default_explorer = 1
 let g:netrw_menu = 0
+let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'markdown', 'ext': '.wiki'}]
 
 let mapleader = ","
 
@@ -63,7 +64,7 @@ set showmode               " Show current mode in command-line.
 set showcmd                " Show already typed keys when more are expected.
 
 set incsearch              " Highlight while searching with / or ?.
-set hlsearch               " Keep matches highlighted.
+set nohlsearch             " Toogle hlsearch using <Leader>H
 
 set ttyfast                " Faster redrawing.
 set lazyredraw             " Only redraw when necessary.
@@ -133,6 +134,11 @@ inoremap [<CR> [<CR>]<Esc>O
 tnoremap <Esc> <C-\><C-n>
 noremap <Leader><Tab> <Esc>/<++><Enter>"_c4l
 
+" toogle number, relativenumber, hlsearch
+noremap <Leader>N :set invnumber<CR>
+nnoremap <Leader>R :set invrelativenumber<CR>
+nnoremap <Leader>H :set invhlsearch<CR>
+
 " list buffers and change
 nnoremap <Leader>ls :ls<CR>:b<Left>
 nnoremap zz zz7<C-e>
@@ -140,9 +146,7 @@ nnoremap <Space> i<Space><Right><Esc>
 
 nnoremap <Leader>n :cnext<CR>
 nnoremap <Leader>p :cprev<CR>
-
-" delete all terminal buffers used by :Terminal
-nnoremap <Leader>d :bd! term:*<C-a><CR>
+nnoremap gd <c-]>
 
 " For comment and uncomment
 noremap <C-n> <S-v>:norm 
@@ -165,9 +169,8 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-hi Comment guibg=#404040 guifg=#abcdef ctermfg=23
 hi Visual  guifg=#52f752
-hi Normal     ctermbg=NONE guibg=NONE
+" hi Normal     ctermbg=NONE guibg=NONE
 hi EndOfBuffer guifg=#404040
 hi StatusLineNC guibg=#4d4d4d guifg=#abcdef
 hi StatusLine guibg=#4d4d4d guifg=#52f752
@@ -180,4 +183,4 @@ hi VertSplit  guifg=#404040 guibg=black
 hi SignColumn ctermbg=NONE guibg=NONE
 hi Pmenu    guifg=#abcdef guibg=#4f4f4f
 hi Search guifg=#52f752 guibg=#4d4d4d
-hi Comment cterm=italic
+hi Comment guifg=#abcdef guibg=#404040 cterm=italic
