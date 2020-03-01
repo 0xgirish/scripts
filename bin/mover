@@ -9,7 +9,7 @@ MEDIA=$HOME/usr/media
 for i in {0..11};
 do
     # move tar files to $DOWNLOAD_PATH/tar 
-    ls $DOWNLOAD_PATH | egrep "^+*\.tar.gz$|^+*\.tar.bz2$" | while IFS= read -r tar_file;
+    ls $DOWNLOAD_PATH | egrep "^+*\.tar.gz$|^+*\.tar.bz2$|^+*.tar.xz" | while IFS= read -r tar_file;
     do
         if [ ! -f $DOWNLOAD_PATH/$tar_file.part ]; then
             mv $DOWNLOAD_PATH/$tar_file $DOWNLOAD_PATH/tar/;
