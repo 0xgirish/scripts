@@ -1,3 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env python3
 
-upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep -E "percentage" | sed "s/^\s*percentage:\s*//g" | sed "s/%//g"
+import psutil
+
+def secs2hours(secs):
+    mm, _ = divmod(secs, 60)
+    hh, mm = divmod(mm, 60)
+    if hh == 0:
+        return "%02d Mins" % (mm)
+
+    return "%d Hrs %02d Mins" % (hh, mm)
+
+battery =  psutil.sensors_battery()
+bpercent = float(battery.percent)
+print('%.2f%%, time left = %s' % (battery.percent, secs2hours(battery.secsleft)))
