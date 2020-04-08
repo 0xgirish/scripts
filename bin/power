@@ -12,4 +12,4 @@ def secs2hours(secs):
 
 battery =  psutil.sensors_battery()
 bpercent = float(battery.percent)
-print('%.2f%%, time left = %s' % (battery.percent, secs2hours(battery.secsleft)))
+print('%.2f%%, time left = %s' % (battery.percent, secs2hours(battery.secsleft)), end='')
