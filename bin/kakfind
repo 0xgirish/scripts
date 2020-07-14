@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# find command for kakoune
+find . -type f -not -path "./vendor/*" -not -path "./.git/*" | sed "s/\.\///"
